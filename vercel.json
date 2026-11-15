@@ -1,6 +1,10 @@
 {
-  "functions": {
-    "api/index.py": { "includeFiles": "{app.py,analytics.py,static/**}", "maxDuration": 60 }
-  },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": { "includeFiles": ["app.py", "analytics.py", "static/**"], "maxDuration": 60 }
+    }
+  ],
+  "routes": [{ "src": "/(.*)", "dest": "/api/index.py?__p=/$1" }]
 }
