@@ -1,0 +1,7 @@
+data/
+inbox/
+config.json
+__pycache__/
+*.pyc
+.vercel
+.DS_Store

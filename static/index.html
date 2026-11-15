@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Durahim 1453 · Pokerbot Dashboard</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="profile">
+      <div class="avatar"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C9 6 4 9 4 13.5A4 4 0 0 0 11 16l-1.5 5h5L13 16a4 4 0 0 0 7-2.5C20 9 15 6 12 2z" fill="#FFFFFF"/></svg></div>
+      <div style="flex:1;min-width:0">
+        <div class="name" id="teamName">Your team</div>
+        <div class="sub" id="teamSub">No bot yet</div>
+      </div>
+    </div>
+    <div class="search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <label for="q" class="vis-hidden">Search teams</label>
+      <input id="q" type="search" placeholder="Search teams or hands" autocomplete="off">
+    </div>
+    <div class="sep"></div>
+    <div class="section">OVERVIEW</div>
+    <a class="nav" href="#competition" data-page="competition"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3"/><path d="M7 5H4v2a3 3 0 0 0 3 3"/></svg>Competition</a>
+    <a class="nav" href="#last-round" data-page="last-round"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Last Round</a>
+    <a class="nav" href="#our-bot" data-page="our-bot"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 4v4"/><circle cx="12" cy="3.5" r="1"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M2 13h3"/><path d="M19 13h3"/></svg>Our Bot</a>
+    <div class="section" style="padding-top:22px">SCHEDULE</div>
+    <div id="schedule"></div>
+    <div class="grow"></div>
+    <div class="sync-note" id="syncNote"></div>
+    <button class="nav" id="darkBtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span>Dark Mode</span></button>
+    <div class="sep" style="margin:10px 4px"></div>
+    <button class="nav" id="settingsBtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
+  </aside>
+  <main class="main" id="view"></main>
+</div>
+
+<input type="file" id="fileInput" class="vis-hidden" multiple accept=".py,.json,.txt">
+
+<div class="drop" id="drop"><div>Drop to upload<small>bot.py → new version · hands .json → round · standings .txt</small></div></div>
+
+<div class="modal" id="standingsModal" role="dialog" aria-modal="true" aria-labelledby="stTitle">
+  <div class="box">
+    <h2 id="stTitle">Paste standings</h2>
+    <p class="hint">On imperialaihack.com/pokerbots, select the whole Standings table (from the heading down to the last team), copy it and paste it here. Any layout works.</p>
+    <label for="stText">Standings text<textarea id="stText" placeholder="1  Durahim 1453  +130.2  1  1,000  v1&#10;2  Chinese people can fly  +100.8  16  16,000  v7&#10;…"></textarea></label>
+    <div class="btns"><button class="btn sm" data-close>Cancel</button><button class="btn sm red" id="stSave">Save standings</button></div>
+  </div>
+</div>
+
+<div class="modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+  <div class="box">
+    <h2 id="setTitle">Settings</h2>
+    <label for="cfgToken">Data token (from “Your table's data” on the AI Poker Bots page)<input id="cfgToken" type="password" autocomplete="off" placeholder="Paste your team's data token"></label>
+    <p class="hint" id="cfgTokenNote"></p>
+    <label for="cfgRounds">Check for new rounds every N minutes<input id="cfgRounds" type="number" min="1" step="1"></label>
+    <label for="cfgTables">Sunday tables (for the predicted table)<input id="cfgTables" type="number" min="1" step="1"></label>
+    <p class="hint">Standings for every team update by themselves once a minute from the tournament's public feed. With the token, every round your bot plays is downloaded automatically, just like fetch_hands.py. The token stays on this computer, in config.json.</p>
+    <div class="btns"><button class="btn sm" data-close>Cancel</button><button class="btn sm red" id="cfgSave">Save</button></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
